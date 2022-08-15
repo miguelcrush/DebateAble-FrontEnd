@@ -8,8 +8,11 @@ const Home: NextPage = () => {
   const { data: session } = useSession();
 
   const getApi = async () =>{
-    var resp = await fetch("api/debates/list", {
-      method:"GET"
+    var resp = await fetch("api/debates", {
+      method:"POST",
+      body: JSON.stringify({
+        title:"Test"
+      })
     });
   }
 
