@@ -3,48 +3,33 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import {authOptions} from '../auth/[...nextauth]';
 import {unstable_getServerSession} from 'next-auth/next';
 import { getToken } from 'next-auth/jwt';
+import { handleUnauthorized, TypedResult } from '../../../types/TypedResult';
+import { DebateIncludes, postDebate } from '../../../data/debates/debate';
 
-type Data = {
-  name: string
+export type GetDebateDTO = {
+  title: string;
+  description:string;
+  id:string;
+  slug:string;
 }
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<TypedResult<GetDebateDTO>>
 ) 
 {
     var token = await getToken({req});
     if(!token){
-        res.status(401).json({name:"unauthorized"});
+        await handleUnauthorized(res);
         return;
     }
-
-    var result: Response;
-
-    console.log(req.headers["Content-Type"]);
 
     if(req.method?.toLowerCase() == "post"){
-        result = await fetch("https://localhost:5001/api/debates",{
-            method:"POST",
-            headers:{
-                "Authorization":`bearer ${token.accessToken}`,
-                "Content-Type": "application/json"
-            },
-            body: req.body
-        });
+        console.log(`body: ${JSON.stringify(req.body)}`);
+        var result = await postDebate(req.body, token.accessToken as string, req.query.includes as DebateIncludes[]);
+        res.status(result.statusCode).json(result);
     }
     else{
-        res.status(415).write("unsupported method");
-        return;
+        return res.status(415).write("unsupported method");
     }
-
-    
-
-    if(!result.ok){
-        console.log(`status ${result.status} ${await result.text()}`);
-        res.status(500).json({name: "error"});
-        return;
-    }
-
-    res.status(200).json({name: await result.text()});
 }
