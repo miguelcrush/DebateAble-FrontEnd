@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import OktaProvider from "next-auth/providers/okta"
+import { getCurrentUser } from "../../../data/user";
 
 export const authOptions: NextAuthOptions ={
   providers: [
@@ -14,6 +15,13 @@ export const authOptions: NextAuthOptions ={
       if(account){
         token.accessToken=account.access_token;   
       }
+
+      console.log(`token callback`);
+
+      //get the current user
+      var currentUser = await getCurrentUser(token.accessToken as string);
+      token.currentUser = currentUser.data;
+
       return token;
     }
   }

@@ -1,21 +1,13 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {authOptions} from '../auth/[...nextauth]';
 import {unstable_getServerSession} from 'next-auth/next';
 import { getToken } from 'next-auth/jwt';
 import { handleUnauthorized, TypedResult } from '../../../types/TypedResult';
-import { DebateIncludes, postDebate } from '../../../data/debate';
-
-export type GetDebateDTO = {
-  title: string;
-  description:string;
-  id:string;
-  slug:string;
-}
+import { getCurrentUser, UserInfo } from '../../../data/user';
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<TypedResult<GetDebateDTO>>
+    res: NextApiResponse<TypedResult<UserInfo>>
 ) 
 {
     var token = await getToken({req});
@@ -24,8 +16,8 @@ export default async function handler(
         return;
     }
 
-    if(req.method?.toLowerCase() == "post"){
-        var result = await postDebate(req.body, token.accessToken as string, req.query.includes as []);
+    if(req.method?.toLowerCase() == "get"){
+        var result = await getCurrentUser(token.accessToken as string)
         res.status(result.statusCode).json(result);
     }
     else{

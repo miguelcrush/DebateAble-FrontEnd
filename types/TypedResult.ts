@@ -54,3 +54,21 @@ export const makeRequest = async <T>(token: string, endpoint:string, method:stri
 
     return result;
 }
+
+export const applyIncludes = (url:string, includes:any[]): string =>{
+    if(!includes){
+        return url;
+    }
+
+    var includesString = includes.join(",");
+
+    if(url.indexOf("?")>-1){
+        url += `&includes=${includesString}`;
+    }
+    else{
+        url += `?includes=${includesString}`;
+    }
+
+
+    return url;
+}

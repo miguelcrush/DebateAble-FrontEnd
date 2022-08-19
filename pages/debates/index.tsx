@@ -1,8 +1,9 @@
+import { Box } from '@chakra-ui/react';
 import { unstable_getServerSession } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
 import Link from 'next/link';
 import * as React from 'react';
-import { DebateIncludes, getDebate, GetDebateDTO, getDebates } from '../../data/debates/debate';
+import { DebateIncludes, getDebate, GetDebateDTO, getDebates } from '../../data/debate';
 import { TypedResult } from '../../types/TypedResult';
 import { authOptions } from '../api/auth/[...nextauth]';
 
@@ -15,9 +16,11 @@ const DebatePage = (props:DebatePageProps)=>{
     var debatesMarkup = props.debatesResult.data.map(d=>{
         return (
             <>
-                <Link href={`/debates/${d.id}/${d.slug}`}>
-                    {d.title}
-                </Link>
+                <Box>
+                    <Link href={`/debates/${d.id}/${d.slug}`}>
+                        {d.title}
+                    </Link>
+                </Box>
             </>
         )
     })

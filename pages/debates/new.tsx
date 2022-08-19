@@ -19,7 +19,7 @@ const NewDebatePage = (props:NewDebateProps)=>{
 
     const handleSave = async () =>{
         setIsLoading(true);
-        var resp = await fetch('/api/debates', {
+        var resp = await fetch('/api/debates?includes=participants&includes=comments&includes=posts', {
             method:"POST",
             headers:{
                 "Content-Type":'application/json'
