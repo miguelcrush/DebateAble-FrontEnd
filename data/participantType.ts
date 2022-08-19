@@ -1,6 +1,8 @@
+import internal from "stream";
 import { applyIncludes, makeRequest, TypedResult } from "../types/TypedResult";
 
 export type ParticipantTypeDTO = {
+    id:number;
     name: string;
     canPost: boolean;
     canComment: boolean;
