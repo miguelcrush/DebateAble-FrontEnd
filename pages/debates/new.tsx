@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { TypedResult } from '../../types/TypedResult';
 import { GetDebateDTO } from '../api/debates';
 import { ParticipantModal } from '../../components/ParticipantModal';
-import { PostDebateParticipantDTO } from '../../data/participant';
+import { ParticipantTypeEnum, PostDebateParticipantDTO } from '../../data/participant';
 
 type NewDebateProps ={
 
@@ -36,7 +36,8 @@ const NewDebatePage = (props:NewDebateProps)=>{
             },
             body:JSON.stringify({
                 title: title,
-                description: premise
+                description: premise,
+                participants: participants
             })
         })
 
@@ -60,7 +61,7 @@ const NewDebatePage = (props:NewDebateProps)=>{
         return (
         <Box>
             {p.appUserEmail}
-            {p.participantTypeId}
+            {ParticipantTypeEnum[ p.participantType]}
         </Box>
         )
     });

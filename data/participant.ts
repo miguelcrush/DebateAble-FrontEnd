@@ -11,7 +11,13 @@ export type PostDebateParticipantDTO= {
     appUserId?:string;
     appUserEmail?:string;
     debateId?:string;
-    participantTypeId:number;
+    participantType: ParticipantTypeEnum;
+}
+
+export enum ParticipantTypeEnum {
+    Debater = 1,
+    Commenter = 2,
+    Viewer = 3
 }
 
 export const getDebateParticipants = async (token:string, debateId:string) : Promise<TypedResult<GetDebateParticipantDTO>> =>{
