@@ -36,7 +36,7 @@ export async function getServerSideProps(context:any){
     var session = await unstable_getServerSession(context.req, context.res, authOptions);
     var token = await getToken({req});
 
-    var getDebateResult = await getDebate(context.query.id, token?.accessToken as string, [DebateIncludes.None]);
+    var getDebateResult = await getDebate(context.query.id, token?.accessToken as string, [DebateIncludes.Participants]);
 
     console.log(getDebateResult);
 

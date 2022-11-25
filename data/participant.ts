@@ -1,10 +1,12 @@
 import { applyIncludes, makeRequest, TypedResult } from "../types/TypedResult";
+import { GetAppUserDTO } from "./appUser";
 import { ParticipantTypeDTO } from "./participantType";
 
 export type GetDebateParticipantDTO = {
     appUserId:string;
     debateId:string;
     participantType:ParticipantTypeDTO;
+    appUser: GetAppUserDTO;
 }
 
 export type PostDebateParticipantDTO= {

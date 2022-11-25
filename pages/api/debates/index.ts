@@ -5,12 +5,14 @@ import {unstable_getServerSession} from 'next-auth/next';
 import { getToken } from 'next-auth/jwt';
 import { handleUnauthorized, TypedResult } from '../../../types/TypedResult';
 import { DebateIncludes, postDebate } from '../../../data/debate';
+import { GetDebateParticipantDTO } from '../../../data/participant';
 
 export type GetDebateDTO = {
   title: string;
   description:string;
   id:string;
   slug:string;
+  participants: GetDebateParticipantDTO[];
 }
 
 export default async function handler(
